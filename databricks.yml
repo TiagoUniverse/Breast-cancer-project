@@ -30,6 +30,7 @@ targets:
       host: https://dbc-741e4be9-a51c.cloud.databricks.com
       root_path: /Workspace/Repos/Project/${bundle.name}_dev
 
+
   prod:
     mode: production
     workspace:
