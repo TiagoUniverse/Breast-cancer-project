@@ -37,7 +37,7 @@ jobs:
         run: |
           databricks bundle validate
 
-  deploy:
+  deploy_prod:
   # Se a PR aprovada for para a master
     if: github.event_name == 'pull_request_review' && github.event.review.state == 'approved' && github.event.pull_request.base.ref == 'master'
     runs-on: ubuntu-latest
