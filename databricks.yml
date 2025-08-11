@@ -4,6 +4,11 @@ bundle:
   name: breast_cancer_project
   uuid: bbfb7521-cfe0-4f33-b928-1ff68372be1d
 
+variables:
+  user_name:
+    description: "Databricks user name"
+    default: "tiagocesar68@gmail.com"
+
 artifacts:
   python_artifact:
     type: whl
@@ -23,13 +28,14 @@ targets:
     default: true
     workspace:
       host: https://dbc-741e4be9-a51c.cloud.databricks.com
+      root_path: /Workspace/Repos/Project/${bundle.name}_dev
 
   prod:
     mode: production
     workspace:
       host: https://dbc-741e4be9-a51c.cloud.databricks.com
       # We explicitly deploy to /Workspace/Users/tiagocesar68@gmail.com to make sure we only have a single copy.
-      root_path: /Workspace/Users/tiagocesar68@gmail.com/.bundle/${bundle.name}/${bundle.target}
+      root_path: /Workspace/Repos/Project/${bundle.name}
     permissions:
-      - user_name: tiagocesar68@gmail.com
+      - user_name: ${variables.user_name}
         level: CAN_MANAGE
