@@ -41,3 +41,5 @@ targets:
     permissions:
       - user_name: ${var.user_name}
         level: CAN_MANAGE
+      - group_name: users
+        level: CAN_MANAGE
