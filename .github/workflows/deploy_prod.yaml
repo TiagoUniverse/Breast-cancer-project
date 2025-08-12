@@ -1,23 +1,23 @@
-name: PR CI com Databricks CLI
+name: Deploy on PR Approval
+
 on:
-  pull_request:
+  pull_request_review:
+    types: [submitted]
 
 jobs:
-  dabs-ci:
+  deploy_prod:
+    # Se a PR aprovada for para a master
+    if: github.event.review.state == 'approved' && github.event.pull_request.base.ref == 'master'
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout do código
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.8'  # adjust according to your project
-          
       - name: Instalar Databricks CLI (versão standalone)
         shell: bash
         run: |
           curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
+
 
       - name: Configurar Databricks CLI
         env:
@@ -28,7 +28,7 @@ jobs:
           $DATABRICKS_HOST
           $DATABRICKS_TOKEN
           EOF
-          
-      - name: Verificação comandos Databricks CLI
+
+      - name: Deploy bundle to production environment
         run: |
-          databricks bundle validate
+          databricks bundle deploy --target prod
