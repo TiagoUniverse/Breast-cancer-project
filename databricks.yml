@@ -39,5 +39,5 @@ targets:
       # We explicitly deploy to /Workspace/Users/tiagocesar68@gmail.com to make sure we only have a single copy.
       root_path: /Workspace/Shared/Project/${bundle.name}
     permissions:
-      - user_name: ${variables.user_name}
+      - user_name: ${var.user_name}
         level: CAN_MANAGE
