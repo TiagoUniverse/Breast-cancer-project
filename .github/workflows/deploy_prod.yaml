@@ -1,4 +1,4 @@
-name: Deploy on PR Approval
+name: PR CD to master branch
 
 on:
   pull_request_target:
