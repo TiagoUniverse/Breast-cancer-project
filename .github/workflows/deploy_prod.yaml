@@ -7,23 +7,10 @@ on:
 
 jobs:
    # Se a PR fechada for para a master
-  if_merged:
+  deploy_prod:
     if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'master'
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.8'  # adjust according to your project
-
-      # - name: Instalar dependências de build Python
-      #   run: |
-      #     python -m pip install --upgrade pip
-      #     pip install build setuptools wheel
-
       - name: Instalar UV
         run: curl -LsSf https://astral.sh/uv/install.sh | sh
 
@@ -42,7 +29,8 @@ jobs:
           $DATABRICKS_HOST
           $DATABRICKS_TOKEN
           EOF
-
+      
+      # Comando Deploy necessita de UV
       - name: Deploy bundle to production environment
         run: |
           databricks bundle deploy --target prod
