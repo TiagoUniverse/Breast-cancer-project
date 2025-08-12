@@ -1,34 +1,12 @@
-name: Deploy on PR Approval
-
 on:
-  pull_request_review:
-    types: [submitted]
+  pull_request_target:
+    types:
+      - closed
 
 jobs:
-  deploy_prod:
-    # Se a PR aprovada for para a master
-    if: github.event.review.state == 'approved'
+  if_merged:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Instalar Databricks CLI (versão standalone)
-        shell: bash
-        run: |
-          curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
-
-
-      - name: Configurar Databricks CLI
-        env:
-          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
-        run: |
-          databricks configure --token <<EOF
-          $DATABRICKS_HOST
-          $DATABRICKS_TOKEN
-          EOF
-
-      - name: Deploy bundle to production environment
-        run: |
-          databricks bundle deploy --target prod
+    - run: |
+        echo The PR was merged
