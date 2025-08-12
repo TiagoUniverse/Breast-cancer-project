@@ -11,5 +11,25 @@ jobs:
     if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'master'
     runs-on: ubuntu-latest
     steps:
-    - run: |
-        echo The PR was merged into the master branch
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Instalar Databricks CLI (versão standalone)
+        shell: bash
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
+
+
+      - name: Configurar Databricks CLI
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+        run: |
+          databricks configure --token <<EOF
+          $DATABRICKS_HOST
+          $DATABRICKS_TOKEN
+          EOF
+
+      - name: Deploy bundle to production environment
+        run: |
+          databricks bundle deploy --target prod
