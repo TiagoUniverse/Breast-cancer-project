@@ -7,7 +7,7 @@ on:
 jobs:
   deploy_prod:
     # Se a PR aprovada for para a master
-    if: github.event.review.state == 'approved' && github.event.pull_request.base.ref == 'master'
+    if: github.event.review.state == 'approved'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
