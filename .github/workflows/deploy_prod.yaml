@@ -19,10 +19,13 @@ jobs:
         with:
           python-version: '3.8'  # adjust according to your project
 
-      - name: Instalar dependências de build Python
-        run: |
-          python -m pip install --upgrade pip
-          pip install build setuptools wheel
+      # - name: Instalar dependências de build Python
+      #   run: |
+      #     python -m pip install --upgrade pip
+      #     pip install build setuptools wheel
+
+      - name: Instalar UV
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
 
       - name: Instalar Databricks CLI (versão standalone)
         shell: bash
